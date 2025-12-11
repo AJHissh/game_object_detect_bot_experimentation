@@ -1,0 +1,3 @@
+C:/Users/Andrew/Desktop/code/monster_hunting_bot/tests/build/CMakeFiles/Bridge.dir
+C:/Users/Andrew/Desktop/code/monster_hunting_bot/tests/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Andrew/Desktop/code/monster_hunting_bot/tests/build/CMakeFiles/ZERO_CHECK.dir
