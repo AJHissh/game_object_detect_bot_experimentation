@@ -545,16 +545,16 @@ last_debug_update: Last time debug display was updated
 KEY VARIABLES FOR FINE-TUNING:
 For Aggressive Targeting:
 python
-self.max_target_lock_frames = 10           # Longer lock persistence
-self.max_obscured_frames = 150             # Wait longer for obscured targets
-self.close_target_click_interval = 0.05    # Faster close target clicking
-self.target_click_delay = 0.01             # Faster target clicking
+self.max_target_lock_frames = 10          
+self.max_obscured_frames = 150            
+self.close_target_click_interval = 0.05  
+self.target_click_delay = 0.01            
 For Conservative/Safe Operation:
 python
-self.max_target_lock_frames = 3            # Quicker to release locks
-self.max_obscured_frames = 50              # Quicker to give up on obscured
-self.close_target_click_interval = 0.2     # Slower close target clicking
-self.search_click_delay = 0.1              # Slower search clicking
+self.max_target_lock_frames = 3            
+self.max_obscured_frames = 50              
+self.close_target_click_interval = 0.2    
+self.search_click_delay = 0.1             
 For Performance vs Accuracy:
 python
 # Performance focus:
@@ -574,4 +574,5 @@ self.black_tile_threshold = 60
 
 # Sparse environments (few objects):
 self.DETECTION_CONFIDENCE = 0.05           
+
 self.black_tile_threshold = 100           
