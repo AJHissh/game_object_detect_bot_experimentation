@@ -1,0 +1,577 @@
+SCREEN & DETECTION SETTINGS
+Screen Dimensions
+python
+self.screen_width, self.screen_height = self.cpp.get_screen_resolution()
+What: Your monitor resolution (auto-detected)
+
+Effect: Higher resolution = more pixels to process, but better detection accuracy
+
+Detection Area
+python
+self.DETECTION_WIDTH = 1000
+self.DETECTION_HEIGHT = 1000
+self.DETECTION_LEFT = self.center_x - (self.DETECTION_WIDTH // 2)
+self.DETECTION_TOP = self.center_y - (self.DETECTION_HEIGHT // 2)
+What: The area where the bot looks for objects (centered on screen)
+
+Effect:
+
+Larger values = detect objects further from center, but slower processing
+
+Smaller values = faster, but only detects nearby objects
+
+PERFORMANCE SETTINGS
+Frame Rates
+python
+self.CAPTURE_FPS = 60
+self.PROCESSING_FPS = 60
+What: How many frames per second to capture and process
+
+Effect:
+
+Higher values = more responsive, but higher CPU usage
+
+Lower values = less CPU usage, but slower reactions
+
+Detection Confidence
+python
+self.DETECTION_CONFIDENCE = 0.01
+What: Minimum confidence level for YOLO to consider an object detected
+
+Effect:
+
+Lower values (0.01-0.1) = more detections, but more false positives
+
+Higher values (0.3-0.8) = fewer detections, but more accurate
+
+TILE DETECTION SETTINGS
+Black/Green Tile Thresholds
+python
+self.black_tile_threshold = 80
+self.green_tile_threshold = 80
+What: RGB values to identify blocked tiles
+
+Effect:
+
+Black threshold: Values 0-255
+
+Lower values (20-50) = only very dark black tiles blocked
+
+Higher values (100-150) = more dark gray areas also blocked
+
+Green threshold: Values 0-255
+
+Lower values (50-80) = only bright green blocked
+
+Higher values (100-150) = more greenish areas blocked
+
+Blocked Tile Proximity
+python
+self.blocked_tile_proximity_threshold = 50
+What: How close to player character to check for blocked tiles
+
+Effect:
+
+Lower values (20-30) = only tiles very close to player are avoided
+
+Higher values (70-100) = avoids blocked tiles further from player
+
+TARGET LOCKING & TRACKING
+Close Target Settings
+python
+self.close_target_obstruction_threshold = 300
+What: Distance in pixels where targets are considered "close"
+
+Effect:
+
+Lower values (150-200) = fewer targets get close target protection
+
+Higher values (350-500) = more targets treated as close targets
+
+Lock Persistence
+python
+self.max_target_lock_frames = 5
+self.max_obscured_frames = 100
+What: How long to maintain lock when target disappears
+
+Effect:
+
+max_target_lock_frames: Frames to wait for locked target to reappear
+
+Higher = more persistent tracking through obstructions
+
+max_obscured_frames: Special handling for close obscured targets
+
+Higher = waits longer for close targets behind obstructions
+
+Position Similarity
+python
+self.position_similarity_threshold = 80
+self.movement_prediction_threshold = 100
+What: How much position change is allowed before considering it a different target
+
+Effect:
+
+Higher values = more forgiving of target movement
+
+Lower values = more strict position matching
+
+SEARCH BEHAVIOR
+Search Distances
+python
+self.search_distances = [150, 175, 200, 215, 220, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500]
+What: Distances to search from center in pixels
+
+Effect:
+
+Smaller values = searches closer to character
+
+Larger values = searches further away
+
+More values = more distance variation
+
+Direction Persistence
+python
+self.max_clicks_per_direction = 8
+self.min_clicks_per_direction = 4
+What: How many clicks to make before changing search direction
+
+Effect:
+
+Higher values = more consistent straight-line movement
+
+Lower values = more frequent direction changes
+
+Blocked Tile Handling
+python
+self.max_consecutive_blocked = 1
+self.min_clicks_after_blocked = 50
+What: How to handle consecutive blocked tiles
+
+Effect:
+
+max_consecutive_blocked: How many blocked tiles before changing direction
+
+min_clicks_after_blocked: Minimum clicks in new direction after blocked tile
+
+MOUSE & TIMING SETTINGS
+Click Delays
+python
+self.search_click_delay = 0.05
+self.target_click_delay = 0.02
+self.close_target_click_interval = 0.1
+What: Delays between mouse actions in seconds
+
+Effect:
+
+search_click_delay: Delay during search clicks
+
+target_click_delay: Delay when clicking targets
+
+close_target_click_interval: Delay between rapid close target clicks
+
+Lower values = faster clicking, but may cause issues
+
+Higher values = slower, more reliable clicking
+
+Mouse Speed
+python
+self.mouse_move_speed = "FAST"
+What: How fast the mouse moves
+
+Effect: "SLOW", "MEDIUM", "FAST", "FASTEST" - faster = quicker targeting
+
+CURSOR AVOIDANCE
+Cursor Detection
+python
+self.disable_cursor_threshold = 0.7
+self.cursor_avoidance_duration = 3.0
+self.cursor_avoidance_distance = 300
+What: Settings for detecting and avoiding the disable cursor
+
+Effect:
+
+disable_cursor_threshold: Template matching confidence (0.0-1.0)
+
+Higher = more strict cursor detection
+
+cursor_avoidance_duration: How long to avoid cursor (seconds)
+
+cursor_avoidance_distance: How far to move away from cursor (pixels)
+
+STATIC DETECTION & EVASION
+Static Lock Detection
+python
+self.static_lock_threshold = 5.0
+self.max_static_lock_frames = 10
+What: Detect when target hasn't moved
+
+Effect:
+
+static_lock_threshold: Seconds before evading static target
+
+max_static_lock_frames: Frames before evading (backup)
+
+Static Object Detection
+python
+self.static_object_threshold = 3.0
+self.min_evasion_time = 8.0
+self.evasion_search_clicks_required = 50
+What: Detect stuck objects and evasion parameters
+
+Effect:
+
+static_object_threshold: Seconds before considering object static
+
+min_evasion_time: Minimum evasion duration
+
+evasion_search_clicks_required: Clicks needed to complete evasion
+
+POST-LOCK BEHAVIOR
+Loot Check
+python
+self.max_post_lock_wait_frames = 5
+What: Frames to wait after losing lock to check for loot
+
+Effect:
+
+Higher values = waits longer for loot to appear
+
+Lower values = quicker to resume searching
+
+OBJECT TRACKING
+Tracker Settings
+python
+self.max_frames_missing = 50
+What: Frames before removing unseen objects from tracking
+
+Effect:
+
+Higher values = longer object persistence
+
+Lower values = quicker cleanup of old objects
+
+DEBUG & MONITORING
+Debug Display
+python
+self.debug_scale = 0.6
+self.debug_update_interval = 0.15
+What: Debug window settings
+
+Effect:
+
+debug_scale: Size of debug window (0.1-1.0)
+
+debug_update_interval: Seconds between debug updates
+
+CAPTCHA DETECTION
+CAPTCHA Settings
+python
+self.captcha_check_interval = 7
+self.captcha_similarity_threshold = 0.4
+self.captcha_alert_cooldown = 10
+What: CAPTCHA detection parameters
+
+Effect:
+
+captcha_check_interval: Seconds between CAPTCHA checks
+
+captcha_similarity_threshold: Template match confidence (0.0-1.0)
+
+captcha_alert_cooldown: Seconds between repeat alerts
+
+RECOMMENDED ADJUSTMENTS FOR COMMON SCENARIOS:
+For Better Performance:
+Lower CAPTURE_FPS and PROCESSING_FPS to 30-45
+
+Reduce DETECTION_WIDTH and DETECTION_HEIGHT to 800x800
+
+Increase search_click_delay to 0.1
+
+For Better Accuracy:
+Increase DETECTION_CONFIDENCE to 0.2-0.3
+
+Lower black_tile_threshold to 50-60
+
+Increase position_similarity_threshold to 100-120
+
+For Better Obscured Target Tracking:
+Increase max_target_lock_frames to 8-10
+
+Increase max_obscured_frames to 150-200
+
+Increase close_target_obstruction_threshold to 350-400
+
+For Faster Targeting:
+Decrease all click delays by 50%
+
+Set mouse_move_speed to "FASTEST"
+
+Decrease max_clicks_per_direction to 4-6
+
+SEARCH FAILURE & RECOVERY
+Search Failure Handling
+python
+self.consecutive_search_failures = 0
+self.max_search_failures = 10
+What: Tracks failed search attempts and recovery
+
+Effect:
+
+max_search_failures: How many consecutive failed searches before reset
+
+Higher values = more persistent searching before giving up
+
+Lower values = quicker to reset search patterns
+
+Evasion Click Settings
+python
+self.evasion_click_count = 0
+self.max_evasion_clicks = random.randint(5, 10)
+What: Controls how many clicks during static lock evasion
+
+Effect:
+
+max_evasion_clicks: Number of clicks to move away from static target
+
+Higher values = moves further away during evasion
+
+Lower values = shorter evasion distance
+
+TARGET POSITION HISTORY
+Static Object Detection History
+python
+self.target_position_history = []
+What: Stores recent target positions to detect static objects
+
+Effect:
+
+Larger history = more accurate static detection but more memory
+
+Controlled by static_object_threshold for time window
+
+CLOSE TARGET CONSTANT CLICKING
+Rapid Clicking Settings
+python
+self.close_target_constant_click = True
+self.last_close_target_click_time = 0
+What: Enables rapid clicking for close targets
+
+Effect:
+
+close_target_constant_click: True/False to enable feature
+
+When True: continuously clicks close targets without delay between detections
+
+OBJECT TRACKER SETTINGS
+Tracker Configuration
+python
+self.max_frames_missing = 50  # In ObjectTracker class
+What: Frames before removing untracked objects
+
+Effect:
+
+Higher values = objects persist longer when not detected
+
+Lower values = quicker cleanup of disappeared objects
+
+THREADING & PERFORMANCE
+Background Processing
+python
+self.shutdown_flag = threading.Event()
+self.captcha_thread = None
+self.last_tracked_objects = {}
+self.frame_counter = 0
+self.consecutive_light_frames = 0
+self.max_consecutive_light_frames = 10
+What: Manages threaded operations and frame skipping
+
+Effect:
+
+max_consecutive_light_frames: Maximum light frames before forcing heavy frame
+
+Higher values = more aggressive frame skipping
+
+Lower values = more frequent full processing
+
+Performance Tracking
+python
+self.performance_log = []
+self.detection_stats = {
+    'total_frames': 0,
+    'detection_frames': 0,
+    'player_detected_frames': 0,
+    'targets_detected_frames': 0,
+    'locked_target_frames': 0,
+    'last_detection_count': 0,
+    'last_detection_classes': [],
+    'last_processing_time': 0,
+    'current_fps': 0,
+    'close_targets_detected': 0,
+    'obscured_target_recoveries': 0,
+    'static_lock_evasions': 0,
+    'tracked_objects_count': 0,
+    'close_target_clicks': 0,
+    'cursor_pattern_filtered': 0,
+    'cursor_avoidance_actions': 0,
+    'light_frames_skipped': 0,
+    'heavy_frames_processed': 0,
+    'consecutive_light_frames': 0
+}
+What: Tracks various performance metrics and statistics
+
+Effect: Monitoring only - doesn't affect behavior
+
+INITIALIZATION FLAGS
+State Management
+python
+self.has_initial_target = False
+self.is_evading_static_object = False
+self.static_evasion_start_time = None
+self.evasion_in_progress = False
+self.evasion_start_time = 0
+self.evasion_duration = 0
+What: Tracks various bot states and timers
+
+Effect: Internal state management - read-only for monitoring
+
+CURSOR POSITION TRACKING
+Cursor Avoidance State
+python
+self.cursor_avoidance_cooldown = 0
+self.last_cursor_detection_time = 0
+self.last_cursor_position = None
+What: Tracks cursor detection and avoidance state
+
+Effect:
+
+last_cursor_detection_time: When cursor was last detected
+
+last_cursor_position: Where cursor was last seen
+
+Used to determine avoidance direction and duration
+
+LOCK MANAGEMENT
+Target Lock State
+python
+self.locked_target_id = None
+self.locked_target = None
+self.locked_target_position = None
+self.locked_target_class = None
+self.target_lock_frames = 0
+self.obscured_target_frames = 0
+self.last_known_close_position = None
+self.lock_start_time = None
+self.last_target_position = None
+self.static_lock_frames = 0
+What: Manages the currently locked target and its state
+
+Effect:
+
+locked_target_id: Unique ID of locked target for persistent tracking
+
+obscured_target_frames: Frames since close target was last seen
+
+last_known_close_position: Last known position of obscured close target
+
+POST-LOCK TIMING
+Loot Check Timing
+python
+self.last_lock_lost_time = 0
+self.post_lock_wait_frames = 0
+What: Manages timing after losing target lock
+
+Effect:
+
+last_lock_lost_time: When the target lock was lost
+
+post_lock_wait_frames: Frames waited for loot to appear
+
+DIRECTION & MOVEMENT
+Search State
+python
+self.search_direction = random.randint(0, 3)
+self.search_distance_index = 0
+self.clicks_in_current_direction = 0
+self.consecutive_blocked_tiles = 0
+What: Tracks current search pattern state
+
+Effect:
+
+search_direction: 0=Right, 1=Down, 2=Left, 3=Up
+
+search_distance_index: Index in search_distances list
+
+clicks_in_current_direction: Clicks made in current direction
+
+CAPTCHA TEMPLATES
+CAPTCHA Detection Assets
+python
+self.captcha_templates = []
+What: Stores loaded CAPTCHA template images
+
+Effect: More templates = better CAPTCHA detection coverage
+
+MOUSE CONTROL
+C++ Bridge Reference
+python
+self.cpp = CppController()
+What: Interface to C++ mouse control library
+
+Effect: Enables hardware-level mouse control for faster response
+
+DETECTION MODELS
+YOLO References
+python
+self.detector = YOLODetector(model_path)
+self.object_tracker = ObjectTracker(self)
+What: YOLO object detection and tracking instances
+
+Effect: Core detection functionality - changing model affects detection accuracy
+
+DEBUG VISUALIZATION
+Display Settings
+python
+self.debug_window_name = "Detection Debug Monitor"
+self.last_debug_update = 0
+What: Debug display management
+
+Effect:
+
+debug_window_name: Name of debug window
+
+last_debug_update: Last time debug display was updated
+
+KEY VARIABLES FOR FINE-TUNING:
+For Aggressive Targeting:
+python
+self.max_target_lock_frames = 10           # Longer lock persistence
+self.max_obscured_frames = 150             # Wait longer for obscured targets
+self.close_target_click_interval = 0.05    # Faster close target clicking
+self.target_click_delay = 0.01             # Faster target clicking
+For Conservative/Safe Operation:
+python
+self.max_target_lock_frames = 3            # Quicker to release locks
+self.max_obscured_frames = 50              # Quicker to give up on obscured
+self.close_target_click_interval = 0.2     # Slower close target clicking
+self.search_click_delay = 0.1              # Slower search clicking
+For Performance vs Accuracy:
+python
+# Performance focus:
+self.CAPTURE_FPS = 30
+self.PROCESSING_FPS = 30  
+self.max_consecutive_light_frames = 15    
+
+# Accuracy focus:
+self.CAPTURE_FPS = 60
+self.PROCESSING_FPS = 60
+self.max_consecutive_light_frames = 5      
+For Different Game Environments:
+python
+# Dense environments (many objects):
+self.DETECTION_CONFIDENCE = 0.2            
+self.black_tile_threshold = 60             
+
+# Sparse environments (few objects):
+self.DETECTION_CONFIDENCE = 0.05           
+self.black_tile_threshold = 100           
