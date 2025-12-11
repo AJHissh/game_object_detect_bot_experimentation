@@ -1,4 +1,3 @@
-# advanced_click_controller.py
 import pyautogui
 import time
 import ctypes
@@ -40,14 +39,13 @@ class AdvancedClickController:
         }
     
     def move_mouse(self, x, y, method='ctypes'):
-        """Move mouse using specified method"""
         try:
             x = max(0, min(self.screen_width - 1, int(x)))
             y = max(0, min(self.screen_height - 1, int(y)))
             
             if method == 'pyautogui':
                 pyautogui.moveTo(x, y, duration=0.1)
-            else:  # ctypes (default)
+            else:  
                 ctypes.windll.user32.SetCursorPos(x, y)
             
             time.sleep(0.05)  
@@ -116,7 +114,7 @@ class AdvancedClickController:
         return True
     
     def _click_rapid(self, x, y):
-        for i in range(2):  # Double click rapidly
+        for i in range(2): 
             ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0)
             ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)
             time.sleep(0.02)
@@ -124,12 +122,11 @@ class AdvancedClickController:
     
     def _click_pressure(self, x, y):
         ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0)
-        time.sleep(0.3)  # Long press
+        time.sleep(0.3) 
         ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)
         return True
     
     def click(self, x=None, y=None, method=None):
-        """Perform click using specified method"""
         if method is None:
             method = self.default_method
         
@@ -173,4 +170,5 @@ if __name__ == "__main__":
     results = controller.test_all_methods()
     
     working = [method for method, success in results.items() if success]
+
     print(f"\nWorking methods: {working}")
